@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { User } from "./types/User";
+import { AuthContext } from "./contexts/authContext";
+
+import ClubPage from "./components/ClubPage";
+import Header from "./components/Header";
+
+interface Props {}
+
+interface State {
+  user: User;
+}
+
+class App extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      user: {
+        id: undefined,
+        name: undefined,
+      },
+    };
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+
+  componentDidMount() {
+    this.login();
+  }
+
+  login() {
+    this.setState({ user: { id: 1, name: "James" } });
+  }
+
+  logout() {
+    this.setState({ user: { id: undefined, name: undefined } });
+  }
+
+  render() {
+    return (
+      <AuthContext.Provider
+        value={{
+          user: this.state.user,
+          login: this.login,
+          logout: this.logout,
+        }}
+      >
+        <Header />
+        <ClubPage name="The First Bookclub" />
+      </AuthContext.Provider>
+    );
+  }
 }
 
 export default App;
