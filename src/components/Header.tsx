@@ -37,4 +37,4 @@ function buildRightSide(user: User, login: () => void, logout: () => void) {
   );
 }
 
-export default Header;
+export { Header };

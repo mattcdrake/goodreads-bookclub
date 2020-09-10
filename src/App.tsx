@@ -3,8 +3,8 @@ import React from "react";
 import { User } from "./types/User";
 import { AuthContext } from "./contexts/authContext";
 
-import ClubPage from "./components/ClubPage";
-import Header from "./components/Header";
+import { ClubPage } from "./components/ClubPage";
+import { Header } from "./components/Header";
 
 interface Props {}
 
@@ -47,7 +47,7 @@ class App extends React.Component<Props, State> {
         }}
       >
         <Header />
-        <ClubPage name="The First Bookclub" />
+        <ClubPage id={1} />
       </AuthContext.Provider>
     );
   }
