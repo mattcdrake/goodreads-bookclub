@@ -3,9 +3,13 @@ import moment from "moment";
 import React from "react";
 
 import { Book } from "../types/Book";
+import { User } from "../types/User";
 
 import { BookList } from "./BookList";
 import { ClubParticipantsPanel } from "./ClubParticipantsPanel";
+
+// Dev dependencies
+import { spoofUser } from "../helpers/spoofUser";
 
 interface ClubPageProps {
   id: number;
@@ -16,18 +20,8 @@ interface ClubInfo {
   name?: string;
   reportDate?: Date;
   bookList?: Book[];
-}
-
-// TODO Implement this after developing the API
-function getClubInfo(id: number): ClubInfo {
-  let output: ClubInfo = {
-    id: id,
-    name: "The First Bookclub",
-    reportDate: new Date(),
-    bookList: getBookList(),
-  };
-
-  return output;
+  organizer?: User;
+  participants?: User[];
 }
 
 function getBookList(): Book[] {
@@ -41,6 +35,26 @@ function getBookList(): Book[] {
       coverPath: "http://covers.openlibrary.org/b/isbn/0765365279-M.jpg",
       altText: `Cover of Book #${i}`,
     });
+  }
+
+  return output;
+}
+
+// TODO Implement this after developing the API
+function getClubInfo(id: number): ClubInfo {
+  let output: ClubInfo = {
+    id: id,
+    name: "The First Bookclub",
+    reportDate: new Date(),
+    bookList: getBookList(),
+    organizer: spoofUser(),
+    participants: [],
+  };
+
+  for (let i = 0; i < 10; ++i) {
+    if (output.participants) {
+      output.participants.push(spoofUser());
+    }
   }
 
   return output;
@@ -60,7 +74,10 @@ function ClubPage(props: ClubPageProps) {
       <div className="text-3xl my-4">Good Choices</div>
       <div className="flex justify-around">
         {clubInfo.bookList && <BookList books={clubInfo.bookList} />}
-        <ClubParticipantsPanel />
+        <ClubParticipantsPanel
+          organizer={clubInfo.organizer}
+          participants={clubInfo.participants}
+        />
       </div>
     </div>
   );

@@ -1,7 +1,14 @@
 import faker from "faker";
 import React from "react";
 
-function ClubParticipantsPanel() {
+import { User } from "../types/User";
+
+interface ClubParticipantsPanelProps {
+  organizer: User;
+  participants: User[];
+}
+
+function ClubParticipantsPanel(props: ClubParticipantsPanelProps) {
   return (
     <div className="flex flex-col border-solid border-2 border-gray-600 shadow rounded w-64">
       <div className="text-2xl mx-auto mt-4">Group Members</div>
@@ -15,6 +22,10 @@ function ClubParticipantsPanel() {
       </div>
     </div>
   );
+}
+
+function NonOrganizerParticipantsPanel(props) {
+  return <div></div>;
 }
 
 export { ClubParticipantsPanel };
