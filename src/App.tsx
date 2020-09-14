@@ -6,20 +6,19 @@ import { AuthContext } from "./contexts/authContext";
 import { ClubPage } from "./components/ClubPage";
 import { Header } from "./components/Header";
 
+import { spoofUser } from "./helpers/spoofUser";
+
 interface Props {}
 
 interface State {
-  user: User;
+  user?: User;
 }
 
 class App extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      user: {
-        id: undefined,
-        name: undefined,
-      },
+      user: undefined,
     };
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
@@ -30,11 +29,11 @@ class App extends React.Component<Props, State> {
   }
 
   login() {
-    this.setState({ user: { id: 1, name: "James" } });
+    this.setState({ user: spoofUser() });
   }
 
   logout() {
-    this.setState({ user: { id: undefined, name: undefined } });
+    this.setState({ user: undefined });
   }
 
   render() {

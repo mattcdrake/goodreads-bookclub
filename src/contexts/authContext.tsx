@@ -3,13 +3,13 @@ import React from "react";
 import { User } from "../types/User";
 
 export interface IAuthContext {
-  user: User;
+  user?: User;
   login: () => void;
   logout: () => void;
 }
 
 const authDefault: IAuthContext = {
-  user: {},
+  user: undefined,
   login: () => {},
   logout: () => {},
 };

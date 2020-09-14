@@ -5,7 +5,7 @@ import { User } from "../types/User";
 
 interface ClubParticipantsPanelProps {
   organizer: User;
-  participants: User[];
+  participants?: User[];
 }
 
 function ClubParticipantsPanel(props: ClubParticipantsPanelProps) {
@@ -22,10 +22,6 @@ function ClubParticipantsPanel(props: ClubParticipantsPanelProps) {
       </div>
     </div>
   );
-}
-
-function NonOrganizerParticipantsPanel(props) {
-  return <div></div>;
 }
 
 export { ClubParticipantsPanel };
