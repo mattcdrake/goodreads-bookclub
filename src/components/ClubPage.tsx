@@ -4,9 +4,9 @@ import React from "react";
 import { Book } from "../types/Book";
 import { User } from "../types/User";
 
-import { BookList } from "./BookList";
+import { ClubBookRecommendations } from "./ClubBookRecommendations";
 import { ClubParticipantsPanel } from "./ClubParticipantsPanel";
-import { ClubReportFrontMatter } from "./ClubReportFrontMatter";
+import { ClubPageFrontMatter } from "./ClubPageFrontMatter";
 
 // Dev dependencies
 import { spoofUser } from "../helpers/spoofUser";
@@ -25,15 +25,30 @@ interface ClubInfo {
 }
 
 function getBookList(): Book[] {
+  let bookISBNs = [
+    "9780134093413",
+    "9780134444321",
+    "9780134580999",
+    "9780321199911",
+    "9780321775658",
+    "9780328925124",
+    "9780500841150",
+    "9781259755330",
+    "9781285741550",
+    "9781400079155",
+    "9780133486872",
+    "9780133871319",
+    "9780134419695",
+    "9780134462455",
+  ];
+
   let output: Book[] = [];
 
-  for (let i = 0; i < 6; ++i) {
+  for (let i = 0; i < bookISBNs.length; ++i) {
     output.push({
-      id: i,
-      title: `The Way of Kings ${i}`,
+      isbn13: bookISBNs[i],
+      title: `Title Placeholder #${i}`,
       author: `${faker.name.firstName()} ${faker.name.lastName()}`,
-      coverPath: "http://covers.openlibrary.org/b/isbn/0765365278-M.jpg",
-      altText: `Cover of Book #${i}`,
     });
   }
 
@@ -62,17 +77,15 @@ function getClubInfo(id: number): ClubInfo {
 
 function ClubPage(props: ClubPageProps) {
   let clubInfo: ClubInfo = getClubInfo(props.id);
-  const pageStyles = "container mx-auto p-8";
 
   return (
-    <div className={pageStyles}>
-      <ClubReportFrontMatter
+    <div className="container mx-auto p-8">
+      <ClubPageFrontMatter
         name={clubInfo.name}
         reportDate={clubInfo.reportDate}
       />
-      <div className="text-3xl my-4">Good Choices</div>
-      <div className="flex justify-around">
-        {clubInfo.bookList && <BookList books={clubInfo.bookList} />}
+      <div className="flex justify-around py-4">
+        <ClubBookRecommendations bookList={clubInfo.bookList} />
         <ClubParticipantsPanel
           organizer={clubInfo.organizer}
           participants={clubInfo.participants}

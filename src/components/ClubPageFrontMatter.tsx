@@ -1,12 +1,12 @@
 import moment from "moment";
 import React from "react";
 
-interface ClubReportFrontMatterProps {
+interface ClubPageFrontMatterProps {
   name: string;
   reportDate?: Date;
 }
 
-function ClubReportFrontMatter(props: ClubReportFrontMatterProps) {
+function ClubPageFrontMatter(props: ClubPageFrontMatterProps) {
   let reportDateString = "Report hasn't been generated yet.";
 
   if (props.reportDate) {
@@ -23,4 +23,4 @@ function ClubReportFrontMatter(props: ClubReportFrontMatterProps) {
   );
 }
 
-export { ClubReportFrontMatter };
+export { ClubPageFrontMatter };
