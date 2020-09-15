@@ -30,6 +30,9 @@ class ClubBookRecommendations extends React.Component<
         ? Math.ceil(props.bookList.length / 6)
         : 0,
     };
+    this.changePage = this.changePage.bind(this);
+    this.decreasePage = this.decreasePage.bind(this);
+    this.increasePage = this.increasePage.bind(this);
     this.getBookListSettings = this.getBookListSettings.bind(this);
   }
 
@@ -37,10 +40,39 @@ class ClubBookRecommendations extends React.Component<
     this.getBookListSettings();
   }
 
+  changePage(newPage: number) {
+    if (newPage <= 0) {
+      this.setState({ bookListPageNumber: 0 });
+    } else if (newPage > this.state.bookListMaxPage) {
+      this.setState({ bookListPageNumber: this.state.bookListMaxPage });
+    } else {
+      this.setState({ bookListPageNumber: newPage });
+    }
+  }
+
+  decreasePage() {
+    let newPageNum = Math.max(this.state.bookListPageNumber - 1, 0);
+    this.setState({
+      bookListPageNumber: newPageNum,
+    });
+  }
+
+  increasePage() {
+    let newPageNum = Math.min(
+      this.state.bookListPageNumber + 1,
+      this.state.bookListMaxPage
+    );
+    this.setState({
+      bookListPageNumber: newPageNum,
+    });
+  }
+
   getBookListSettings() {
-    let maxPage = this.props.bookList
-      ? Math.ceil(this.props.bookList.length / 6)
-      : 0;
+    let maxPage = 0;
+    if (this.props.bookList) {
+      let len = this.props.bookList.length;
+      maxPage = Math.ceil(len / this.state.bookListPageLength) - 1;
+    }
     this.setState({
       bookListPageLength: 6,
       bookListPageNumber: 0,
@@ -59,7 +91,10 @@ class ClubBookRecommendations extends React.Component<
           />
         )}
         <ClubBooksPaginationControl
+          changePage={this.changePage}
           currentPage={this.state.bookListPageNumber}
+          decreasePage={this.decreasePage}
+          increasePage={this.increasePage}
           maxPage={this.state.bookListMaxPage}
         />
       </div>
