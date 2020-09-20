@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import { User } from "./types/User";
 import { AuthContext } from "./contexts/authContext";
@@ -38,16 +39,18 @@ class App extends React.Component<Props, State> {
 
   render() {
     return (
-      <AuthContext.Provider
-        value={{
-          user: this.state.user,
-          login: this.login,
-          logout: this.logout,
-        }}
-      >
-        <Header />
-        <ClubPage id={1} />
-      </AuthContext.Provider>
+      <Router>
+        <AuthContext.Provider
+          value={{
+            user: this.state.user,
+            login: this.login,
+            logout: this.logout,
+          }}
+        >
+          <Header />
+          <Route path="/clubs/:clubId" component={ClubPage} />
+        </AuthContext.Provider>
+      </Router>
     );
   }
 }

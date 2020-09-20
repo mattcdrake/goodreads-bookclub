@@ -13,6 +13,7 @@ import { spoofUser } from "../helpers/spoofUser";
 
 interface ClubPageProps {
   id: number;
+  match: { params: { clubId: number } };
 }
 
 interface ClubInfo {
@@ -77,6 +78,7 @@ function getClubInfo(id: number): ClubInfo {
 
 function ClubPage(props: ClubPageProps) {
   let clubInfo: ClubInfo = getClubInfo(props.id);
+  console.log(props.match.params.clubId);
 
   return (
     <div className="container mx-auto p-8">

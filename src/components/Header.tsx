@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { User } from "../types/User";
 import { IAuthContext, AuthContext } from "../contexts/authContext";
@@ -8,7 +9,9 @@ function Header() {
   return (
     <div className="text-white bg-gray-800">
       <div className="flex container justify-between m-auto">
-        <span className="text-3xl m-2">Bookclub</span>
+        <span className="text-3xl m-2">
+          <Link to="/">Bookclub</Link>
+        </span>
         {buildRightSide(
           authContext.login,
           authContext.logout,
