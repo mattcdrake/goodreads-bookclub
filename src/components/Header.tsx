@@ -6,11 +6,12 @@ import { IAuthContext, AuthContext } from "../contexts/authContext";
 
 function Header() {
   const authContext: IAuthContext = React.useContext(AuthContext);
+
   return (
     <div className="text-white bg-gray-800">
       <div className="flex container justify-between m-auto">
         <span className="text-3xl m-2">
-          <Link to="/">Bookclub</Link>
+          <Link to="/">What Should We Read?</Link>
         </span>
         {buildRightSide(
           authContext.login,

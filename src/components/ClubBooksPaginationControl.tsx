@@ -1,11 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-// Page numbers are zero-indexed.
 interface ClubBooksPaginationControlProps {
-  changePage: (pageNum: number) => void;
+  clubId: number;
   currentPage: number;
-  decreasePage: () => void;
-  increasePage: () => void;
   maxPage: number;
 }
 
@@ -15,86 +13,102 @@ interface ClubBooksPaginationControlProps {
  * ellipsis.
  *
  * Always show the first and last page, then show a 'window' of max-length 3.
- *
- * CONVERTS FROM 0-INDEX TO 1-INDEX.
  */
 function getPageWindow(
   currentPage: number,
   maxPage: number
 ): (number | undefined)[] {
-  let currentPageOne = currentPage + 1;
-  let maxPageOne = maxPage + 1;
   let outputArray: (number | undefined)[] = [1];
 
-  if (maxPageOne < 4) {
-    for (let i = 2; i <= maxPageOne; ++i) {
+  if (maxPage < 4) {
+    for (let i = 2; i <= maxPage; ++i) {
       outputArray.push(i);
     }
     return outputArray;
   }
 
   // Check for a gap on the left side
-  if (currentPageOne >= 4) {
+  if (currentPage >= 4) {
     outputArray.push(undefined);
   }
 
   // Add window of numbers
-  if (currentPageOne === 1) {
+  if (currentPage === 1) {
     outputArray.push(2);
-  } else if (currentPageOne === 2) {
+  } else if (currentPage === 2) {
     outputArray.push(2, 3);
-  } else if (currentPageOne >= maxPageOne - 1) {
-    for (let i = currentPageOne - 1; i < maxPageOne; ++i) {
+  } else if (currentPage >= maxPage - 1) {
+    for (let i = currentPage - 1; i <= maxPage; ++i) {
       outputArray.push(i);
     }
     return outputArray;
   } else {
-    for (let i = currentPageOne - 1; i < currentPageOne + 2; ++i) {
+    for (let i = currentPage - 1; i < currentPage + 2; ++i) {
       outputArray.push(i);
     }
   }
 
   // Check for a gap on the right side
-  if (currentPageOne < maxPageOne - 2) {
+  if (currentPage < maxPage - 2) {
     outputArray.push(undefined);
   }
-  outputArray.push(maxPageOne);
+  outputArray.push(maxPage);
 
   return outputArray;
 }
 
 function ClubBooksPaginationControl(props: ClubBooksPaginationControlProps) {
+  let prevPage = Math.max(props.currentPage - 1, 1);
+  let nextPage = Math.min(props.currentPage + 1, props.maxPage);
   let anchorClasses =
     "block hover:bg-blue-600 border-r rounded border-gray-400 px-3 py-2";
+  let ellipsisClasses = "block border-r rounded border-gray-400 px-3 py-2";
 
   return (
     <ul className="flex list-reset border rounded justify-center">
       <li key="back">
-        <a className={anchorClasses} onClick={props.decreasePage} href="#">
+        <Link
+          className={anchorClasses}
+          to={`/clubs/${props.clubId}/page/${prevPage}`}
+          replace
+        >
           Previous
-        </a>
+        </Link>
       </li>
 
       {getPageWindow(props.currentPage, props.maxPage).map((pageNum) => {
+        let cssClasses = anchorClasses;
+        if (pageNum === props.currentPage) {
+          cssClasses += " bg-blue-600";
+        }
         if (pageNum) {
           return (
-            <li
-              key={pageNum}
-              className={anchorClasses}
-              //href={`/page/${pageNum}`}
-              onClick={() => props.changePage(pageNum - 1)}
-            >
-              {pageNum}
+            <li key={pageNum}>
+              <Link
+                className={cssClasses}
+                to={`/clubs/${props.clubId}/page/${pageNum}`}
+                replace
+              >
+                {pageNum}
+              </Link>
             </li>
           );
         }
-        return <li key="ellipsis">...</li>;
+        return (
+          <li key="ellipsis" className={ellipsisClasses}>
+            ...
+          </li>
+        );
       })}
 
       <li key="forward">
-        <a className={anchorClasses} onClick={props.increasePage} href="#">
+        <Link
+          className={anchorClasses}
+          to={`/clubs/${props.clubId}/page/${nextPage}`}
+          replace
+        >
           Next
-        </a>
+        </Link>
       </li>
     </ul>
   );

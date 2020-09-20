@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { User } from "./types/User";
 import { AuthContext } from "./contexts/authContext";
@@ -48,7 +48,10 @@ class App extends React.Component<Props, State> {
           }}
         >
           <Header />
-          <Route path="/clubs/:clubId" component={ClubPage} />
+          <Route
+            path={["/clubs/:clubId/page/:pageNum", "/clubs/:clubId"]}
+            component={ClubPage}
+          />
         </AuthContext.Provider>
       </Router>
     );

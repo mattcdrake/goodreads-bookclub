@@ -6,25 +6,16 @@ import { BookCard } from "./BookCard";
 
 interface ClubBookListProps {
   books: Book[];
-  pageLength: number;
   pageNumber: number;
 }
 
 function ClubBookList(props: ClubBookListProps) {
-  let bookListStartPos = props.pageNumber * props.pageLength;
-  let bookSubList = props.books.slice(
-    bookListStartPos,
-    bookListStartPos + props.pageLength
-  );
+  // Convert from 1-indexing to 0-indexing to work with the array.
+  let bookListStartPos = (props.pageNumber - 1) * 6;
+  let bookSubList = props.books.slice(bookListStartPos, bookListStartPos + 6);
 
   return (
-    <ul
-      className={
-        "grid grid-cols-3 grid-rows-" +
-        Math.max(1, Math.floor(props.pageLength / 3)) +
-        " gap-2"
-      }
-    >
+    <ul className={"grid grid-cols-3 grid-rows-2 gap-2"}>
       {bookSubList.map((book) => {
         return (
           <li key={book.title} className="w-64">
