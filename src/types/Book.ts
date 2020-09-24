@@ -1,7 +1,5 @@
 export interface Book {
-  id: number;
+  isbn13: string;
   title: string;
   author: string;
-  coverPath: string;
-  altText: string;
 }
