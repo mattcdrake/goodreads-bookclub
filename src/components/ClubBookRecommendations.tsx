@@ -1,15 +1,15 @@
 import React from "react";
 
 // Types
-import { Book } from "../types/Book";
+import { ReportBook } from "../types/ReportBook";
 
 // Components
 import { ClubBookList } from "./ClubBookList";
 import { ClubBooksPaginationControl } from "./ClubBooksPaginationControl";
 
 interface ClubBookRecommendationsProps {
-  bookList?: Book[];
-  clubId: number;
+  bookList?: ReportBook[];
+  clubId: string;
   pageNum: number;
 }
 
@@ -44,10 +44,10 @@ class ClubBookRecommendations extends React.Component<
     }
 
     return (
-      <div className="border-solid border-2 border-gray-400 shadow rounded">
+      <div className="h-full border-solid border-2 border-gray-400 shadow rounded">
         {this.props.bookList && (
           <ClubBookList
-            books={this.props.bookList}
+            reportBooks={this.props.bookList}
             pageNumber={pageNumChecked}
           />
         )}

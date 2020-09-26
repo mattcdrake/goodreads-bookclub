@@ -6,6 +6,7 @@ import { AuthContext } from "./contexts/authContext";
 
 import { ClubPage } from "./components/ClubPage";
 import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 
 import { spoofUser } from "./helpers/spoofUser";
 
@@ -52,6 +53,7 @@ class App extends React.Component<Props, State> {
             path={["/clubs/:clubId/page/:pageNum", "/clubs/:clubId"]}
             component={ClubPage}
           />
+          <Footer />
         </AuthContext.Provider>
       </Router>
     );
